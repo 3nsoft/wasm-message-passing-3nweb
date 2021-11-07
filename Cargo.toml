@@ -5,7 +5,7 @@ edition = "2021"
 description = "Allows message passing between WASM instance and its embedding (like 3NWeb client platform)"
 authors = ["3NSoft Inc. <hq@3nsoft.com>"]
 license = "LGPL-3.0+"
-repository = "https://github.com/3nsoft/?"
+repository = "https://github.com/3nsoft/wasm-message-passing-3nweb"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
