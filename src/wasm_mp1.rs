@@ -70,7 +70,7 @@ mod internals {
 				_3nweb_mp1_get_buffer(msg.len());
 			}
 			copy(msg.as_ptr(), BUFFER_INFO.ptr, msg.len());
-			_3nweb_mp1_send_out_msg(0, msg.len());
+			_3nweb_mp1_send_out_msg(BUFFER_INFO.ptr as usize, msg.len());
 		}
 	}
 
@@ -79,15 +79,14 @@ mod internals {
 	/// 
 	#[allow(dead_code)]
 	fn read_msg_from_buffer(len: usize) -> Vec<u8> {
-		let mut msg = Vec::with_capacity(len);
-		unsafe {
-			msg.copy_from_slice(slice::from_raw_parts(BUFFER_INFO.ptr, len));
-		}
-		msg
+		let buf = unsafe {
+			slice::from_raw_parts(BUFFER_INFO.ptr, len)
+		};
+		Vec::from(buf)
 	}
 
 	#[allow(dead_code)]
-	static mut MSG_PROCESSOR: Option<Box<dyn Fn(Vec<u8>) -> ()>> = None;
+	static mut MSG_PROCESSOR: Option<&dyn Fn(Vec<u8>) -> ()> = None;
 
 	/// Sets a message `processor` function/closure that will be called with
 	/// binary messages from the outside. This is implementation.
@@ -95,7 +94,7 @@ mod internals {
 	/// Messages are given to `processor` as `Vec<u8>` completely separated from
 	/// workings of message exchange buffer(s).
 	/// 
-	pub fn set_msg_processor(processor: Box<dyn Fn(Vec<u8>) -> ()>) -> () {
+	pub fn set_msg_processor(processor: &'static dyn Fn(Vec<u8>) -> ()) -> () {
 		unsafe {
 			MSG_PROCESSOR = Some(processor);
 		}
@@ -151,6 +150,6 @@ pub fn send_msg_out(msg: &Vec<u8>) -> () {
 /// workings of message exchange buffer(s).
 /// 
 #[inline]
-pub fn set_msg_processor(processor: Box<dyn Fn(Vec<u8>) -> ()>) -> () {
+pub fn set_msg_processor(processor: &'static dyn Fn(Vec<u8>) -> ()) -> () {
 	internals::set_msg_processor(processor);
 }
