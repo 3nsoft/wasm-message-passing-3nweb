@@ -13,5 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+/// This module provide rust implementation for WASM module to talk with the
+/// outside according to version 1 of 3nweb's message passing api (should be
+/// called abi?).
 pub mod wasm_mp1;

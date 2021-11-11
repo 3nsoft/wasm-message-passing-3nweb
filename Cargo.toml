@@ -1,6 +1,6 @@
 [package]
 name = "wasm-message-passing-3nweb"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2021"
 description = "Allows message passing between WASM instance and its embedding (like 3NWeb client platform)"
 authors = ["3NSoft Inc. <hq@3nsoft.com>"]
